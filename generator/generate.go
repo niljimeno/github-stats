@@ -16,6 +16,9 @@ func newImage() *image.RGBA {
 	width := 800
 	height := 300
 
+	innerWidth := width * 3 / 4
+	innerHeight := height * 2 / 3
+
 	upLeft := image.Point{0, 0}
 	lowRight := image.Point{width, height}
 
@@ -24,10 +27,17 @@ func newImage() *image.RGBA {
 	statsBar := StatsBar{
 		Width:  width,
 		Height: height,
-		Img:    img,
+
+		InnerWidth:  innerWidth,
+		InnerHeight: innerHeight,
+
+		InnerMarginX: (width - innerWidth) / 2,
+		InnerMarginY: (height - innerHeight) / 2,
+
+		Img: img,
 		Palette: &Palette{
 			Bg: color.RGBA{0x22, 0x22, 0x22, 0xff},
-			Fg: color.RGBA{0xff, 0xff, 0x44, 0xff},
+			Fg: color.RGBA{0xff, 0xff, 0xff, 0xff},
 		},
 	}
 

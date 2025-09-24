@@ -5,12 +5,18 @@ import (
 	"image/color"
 	"log"
 
-	"github.com/niljimeno/github-stats/stats"
+	"github.com/niljimeno/github-stats/generator/languages"
 )
 
 type StatsBar struct {
 	Width  int
 	Height int
+
+	InnerMarginX int
+	InnerMarginY int
+
+	InnerWidth  int
+	InnerHeight int
 
 	Img     *image.RGBA
 	Palette *Palette
@@ -33,64 +39,21 @@ func (s *StatsBar) Fill() {
 }
 
 func (s *StatsBar) DrawBar() {
-	width := s.Width * 2 / 3
+	width := s.InnerWidth
 	height := 10
-
-	marginX := (s.Width - width) / 2
-	marginY := (s.Height - height) / 3
 
 	for x := range width {
 		for y := range height {
-			s.Img.Set(marginX+x, marginY+y, s.Palette.Fg)
+			s.Img.Set(s.InnerMarginX+x, s.InnerMarginY+y, s.Palette.Fg)
 		}
 	}
 }
 
 func (s *StatsBar) DrawStats() {
-	stats := []stats.Stat{
-		{
-			Language:   "go",
-			Percentage: 60,
-		},
-		{
-			Language:   "haskell",
-			Percentage: 30,
-		},
-		{
-			Language: "erlang",
-			Amount:   10,
-		},
-	}
-
-	for i, v := range stats {
-		cellSize := 48
-		textSize := 24
-
-		row := i / 3
-		col := i % 3
-
-		x := col * 160
-		y := row * (cellSize + 20)
-
-		err := DrawIcon(DrawIconOps{
-			X:      x,
-			Y:      y,
-			Screen: s.Img,
-			Size:   cellSize,
-			Name:   v.Language,
-		})
-
-		if err != nil {
-			log.Panic(err)
-		}
-
-		DrawText(DrawTextOps{
-			X: x + cellSize,
-			Y: y + textSize,
-
-			Screen: s.Img,
-			Size:   textSize,
-			Text:   v.Language,
-		})
+	languages.SetUp()
+	s.DrawBar()
+	err := s.DrawInnerStats()
+	if err != nil {
+		log.Panic(err)
 	}
 }

@@ -17,6 +17,7 @@ type DrawTextOps struct {
 	Screen *image.RGBA
 	Size   int
 	Text   string
+	Color  color.Color
 }
 
 func DrawText(ops DrawTextOps) error {
@@ -37,7 +38,6 @@ func DrawText(ops DrawTextOps) error {
 		return err
 	}
 
-	col := color.RGBA{0xff, 0xff, 0xff, 0xff}
 	point := fixed.Point26_6{
 		X: fixed.I(ops.X + marginX),
 		Y: fixed.I(ops.Y + marginY),
@@ -45,7 +45,7 @@ func DrawText(ops DrawTextOps) error {
 
 	d := &font.Drawer{
 		Dst:  ops.Screen,
-		Src:  image.NewUniform(col),
+		Src:  image.NewUniform(ops.Color),
 		Face: face,
 		Dot:  point,
 	}
