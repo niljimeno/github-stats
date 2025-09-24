@@ -1,8 +1,8 @@
 package languages
 
-func Get(name string) Language {
-	if (languageMap[name] != Language{}) {
-		return languageMap[name]
+func GetLanguage(name string) Language {
+	if (LanguageMap[name] != Language{}) {
+		return LanguageMap[name]
 	}
 
 	return defaultLanguage

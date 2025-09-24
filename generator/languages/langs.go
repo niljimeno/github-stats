@@ -12,10 +12,10 @@ var defaultLanguage = Language{
 	},
 }
 
-var languageMap = make(map[string]Language)
+var LanguageMap = make(map[string]Language)
 
 func SetUp() {
-	languageMap["go"] = Language{
+	LanguageMap["go"] = Language{
 		Name: "go",
 		Color: color.RGBA{
 			R: 0x40,
@@ -25,7 +25,7 @@ func SetUp() {
 		},
 	}
 
-	languageMap["haskell"] = Language{
+	LanguageMap["haskell"] = Language{
 		Name: "haskell",
 		Color: color.RGBA{
 			R: 0xbb,
@@ -35,7 +35,7 @@ func SetUp() {
 		},
 	}
 
-	languageMap["erlang"] = Language{
+	LanguageMap["erlang"] = Language{
 		Name: "erlang",
 		Color: color.RGBA{
 			R: 0xdd,
@@ -45,7 +45,7 @@ func SetUp() {
 		},
 	}
 
-	languageMap["gleam"] = Language{
+	LanguageMap["gleam"] = Language{
 		Name: "gleam",
 		Color: color.RGBA{
 			R: 0xff,

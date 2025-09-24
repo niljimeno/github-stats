@@ -14,10 +14,10 @@ func Generate(path string) {
 
 func newImage() *image.RGBA {
 	width := 800
-	height := 300
+	height := 350
 
 	innerWidth := width * 3 / 4
-	innerHeight := height * 2 / 3
+	innerHeight := height * 2 / 4
 
 	upLeft := image.Point{0, 0}
 	lowRight := image.Point{width, height}
@@ -42,7 +42,6 @@ func newImage() *image.RGBA {
 	}
 
 	statsBar.Fill()
-	statsBar.DrawBar()
 	statsBar.DrawStats()
 	return statsBar.Img
 }

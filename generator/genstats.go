@@ -1,6 +1,9 @@
 package generator
 
 import (
+	"fmt"
+	"image/color"
+
 	"github.com/niljimeno/github-stats/generator/languages"
 	"github.com/niljimeno/github-stats/generator/stats"
 )
@@ -8,20 +11,20 @@ import (
 func (s *StatsBar) DrawInnerStats() error {
 	stats := []stats.Stat{
 		{
-			Language:   languages.Get("go"),
+			Language:   languages.GetLanguage("go"),
 			Percentage: 60,
 		},
 		{
-			Language:   languages.Get("haskell"),
+			Language:   languages.GetLanguage("haskell"),
 			Percentage: 30,
 		},
 		{
-			Language: languages.Get("erlang"),
-			Amount:   10,
+			Language:   languages.GetLanguage("erlang"),
+			Percentage: 5,
 		},
 		{
-			Language: languages.Get("gleam"),
-			Amount:   10,
+			Language:   languages.GetLanguage("gleam"),
+			Percentage: 5,
 		},
 	}
 
@@ -33,6 +36,8 @@ func (s *StatsBar) DrawInnerStats() error {
 
 	paddingY := 40
 	marginY := s.InnerMarginY + paddingY
+
+	percentageCount := float64(0)
 
 	for i, v := range stats {
 		row := i / 3
@@ -53,6 +58,9 @@ func (s *StatsBar) DrawInnerStats() error {
 			return err
 		}
 
+		s.DrawBar(percentageCount, v.Percentage, v.Language.Color)
+		percentageCount += v.Percentage
+
 		DrawText(DrawTextOps{
 			X: x + cellSize,
 			Y: y + textSize,
@@ -65,4 +73,18 @@ func (s *StatsBar) DrawInnerStats() error {
 	}
 
 	return nil
+}
+
+func (s *StatsBar) DrawBar(a, b float64, color color.Color) {
+	startPoint := s.InnerMarginX + int((float64(s.InnerWidth)*a)/100)
+	endPoint := int((float64(s.InnerWidth) * b) / 100)
+	height := 10
+
+	fmt.Println(a, b, startPoint, endPoint, int((float64(s.InnerWidth)*b)/100), (float64(s.InnerWidth)*b)/100)
+
+	for x := range endPoint {
+		for y := range height {
+			s.Img.Set(startPoint+x, s.InnerMarginY+y, color)
+		}
+	}
 }

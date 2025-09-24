@@ -38,20 +38,8 @@ func (s *StatsBar) Fill() {
 	}
 }
 
-func (s *StatsBar) DrawBar() {
-	width := s.InnerWidth
-	height := 10
-
-	for x := range width {
-		for y := range height {
-			s.Img.Set(s.InnerMarginX+x, s.InnerMarginY+y, s.Palette.Fg)
-		}
-	}
-}
-
 func (s *StatsBar) DrawStats() {
 	languages.SetUp()
-	s.DrawBar()
 	err := s.DrawInnerStats()
 	if err != nil {
 		log.Panic(err)
